@@ -19,29 +19,23 @@ RUN yumdownloader -x \*i686 --archlist=x86_64 \
   json-c \
   lz4 \
   pcre2 \
-  systemd-libs
-
-RUN rpm2cpio clamav-0*.rpm | cpio -idmv
-RUN rpm2cpio clamav-lib*.rpm | cpio -idmv
-RUN rpm2cpio clamav-update*.rpm | cpio -idmv
-RUN rpm2cpio clamd-0*.rpm | cpio -idmv
-RUN rpm2cpio elfutils-libs*.rpm | cpio -idmv
-RUN rpm2cpio json-c*.rpm | cpio -idmv
-RUN rpm2cpio lz4*.rpm | cpio -idmv
-RUN rpm2cpio pcre*.rpm | cpio -idmv
-RUN rpm2cpio systemd-libs*.rpm | cpio -idmv
-
-WORKDIR /tmp
-RUN yumdownloader -x \*i686 --archlist=x86_64 clamav clamav-lib clamav-update json-c pcre2 libprelude gnutls libtasn1 lib64nettle nettle
+  systemd-libs \
+  libprelude \
+  gnutls \
+  libtasn1 \
+  lib64nettle \
+  nettle
+  
 RUN rpm2cpio clamav-0*.rpm | cpio -idmv
 RUN rpm2cpio clamav-lib*.rpm | cpio -idmv
 RUN rpm2cpio clamav-update*.rpm | cpio -idmv
 RUN rpm2cpio json-c*.rpm | cpio -idmv
 RUN rpm2cpio pcre*.rpm | cpio -idmv
-RUN rpm2cpio gnutls*.rpm | cpio -idmv
-RUN rpm2cpio nettle*.rpm | cpio -idmv
-RUN rpm2cpio libprelude*.rpm | cpio -idmv
-RUN rpm2cpio libtasn1*.rpm | cpio -idmv
+RUN rpm2cpio gnutls* | cpio -idmv
+RUN rpm2cpio nettle* | cpio -idmv
+RUN rpm2cpio lib* | cpio -idmv
+RUN rpm2cpio *.rpm | cpio -idmv
+RUN rpm2cpio libtasn1* | cpio -idmv
 
 # Copy over the binaries and libraries
 RUN cp -r /tmp/usr/bin/clamdscan \
